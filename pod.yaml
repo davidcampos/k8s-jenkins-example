@@ -1,31 +1,31 @@
 apiVersion: v1
-  kind: Pod
-  metadata:
-    labels:
-      some-label: pod
-  spec:
-    containers:
-      - name: maven
-        image: maven:3.3.9-jdk-8-alpine
-        command:
-          - cat
-        tty: true
-        volumeMounts:
-          - name: m2
-            mountPath: /root/.m2
-      - name: docker
-        image: docker:19.03
-        command:
-          - cat
-        tty: true
-        privileged: true
-        volumeMounts:
-          - name: dockersock
-            mountPath: /var/run/docker.sock
-    volumes:
-      - name: dockersock
-        hostPath:
-          path: /var/run/docker.sock
-      - name: m2
-        hostPath:
-          path: /root/.m2
+kind: Pod
+metadata:
+  labels:
+    some-label: pod
+spec:
+  containers:
+    - name: maven
+      image: maven:3.3.9-jdk-8-alpine
+      command:
+        - cat
+      tty: true
+      volumeMounts:
+        - name: m2
+          mountPath: /root/.m2
+    - name: docker
+      image: docker:19.03
+      command:
+        - cat
+      tty: true
+      privileged: true
+      volumeMounts:
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+  volumes:
+    - name: dockersock
+      hostPath:
+        path: /var/run/docker.sock
+    - name: m2
+      hostPath:
+        path: /root/.m2
