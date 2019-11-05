@@ -1,14 +1,27 @@
 pipeline {
-    agent any
-    tools {
-        maven 'maven_3.6.2'
-        jdk 'jdk_9.0.4'
+    environment {
+        registry = 'davidcampos/k8s-jenkins-example'
+        registryCredential = 'dockerhub'
+    }
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yamlFile 'pod.yaml'
+        }
     }
     stages {
         stage('Build') {
             steps {
-                sh 'mvn package'
-                echo 'This is a minimal pipeline.'
+                container('maven') {
+                    sh 'mvn package'
+                }
+            }
+        }
+        stage('Docker') {
+            steps {
+                container('docker') {
+                    sh 'docker build -t  $registry .'
+                }
             }
         }
     }
