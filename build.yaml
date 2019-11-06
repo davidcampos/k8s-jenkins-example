@@ -22,8 +22,8 @@ spec:
       volumeMounts:
         - name: dockersock
           mountPath: /var/run/docker.sock
-    - name: kubectl
-      image: roffe/kubectl:latest
+    - name: helm
+      image: lachlanevenson/k8s-helm:v2.16.0
       command:
         - cat
       tty: true

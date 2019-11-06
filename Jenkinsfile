@@ -35,8 +35,9 @@ pipeline {
         }
         stage('Kubernetes Deploy') {
             steps {
-                container('kubectl') {
-                    sh 'kubectl apply -f deploy.yaml'
+                container('helm') {
+                    sh 'helm init --client-only --skip-refresh'
+                    sh 'helm upgrade --install --wait example ./helm'
                 }
             }
         }
