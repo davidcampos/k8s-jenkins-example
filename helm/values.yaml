@@ -41,7 +41,8 @@ ingress:
     kubernetes.io/ingress.class: traefik
   hosts:
     - host: example.localhost
-      path: /
+      paths:
+        - /
   tls: []
 
 resources: {}
