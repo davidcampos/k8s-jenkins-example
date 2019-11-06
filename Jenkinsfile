@@ -17,10 +17,19 @@ pipeline {
                 }
             }
         }
-        stage('Docker') {
+        stage('Docker Build') {
             steps {
                 container('docker') {
                     sh 'docker build -t  $registry .'
+                }
+            }
+        }
+        stage('Docker Publish') {
+            steps {
+                container('docker') {
+                    withDockerRegistry([credentialsId: "dockerhub", url: ""]) {
+                        sh 'docker push $registry:latest'
+                    }
                 }
             }
         }
