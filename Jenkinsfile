@@ -6,7 +6,7 @@ pipeline {
     agent {
         kubernetes {
             defaultContainer 'jnlp'
-            yamlFile 'pod.yaml'
+            yamlFile 'build.yaml'
         }
     }
     stages {
@@ -30,6 +30,13 @@ pipeline {
                     withDockerRegistry([credentialsId: "dockerhub", url: ""]) {
                         sh 'docker push $registry:latest'
                     }
+                }
+            }
+        }
+        stage('Kubernetes Deploy') {
+            steps {
+                container('kubectl') {
+                    sh 'kubectl apply -f deploy.yaml'
                 }
             }
         }

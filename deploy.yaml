@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+        - name: example-container
+          image: davidcampos/k8s-jenkins-example
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+spec:
+  ports:
+    - name: http
+      targetPort: 8090
+      port: 8090
+  selector:
+    app: example
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: example.localhost
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: example-service
+              servicePort: http

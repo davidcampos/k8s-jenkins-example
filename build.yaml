@@ -22,6 +22,11 @@ spec:
       volumeMounts:
         - name: dockersock
           mountPath: /var/run/docker.sock
+    - name: kubectl
+      image: bitnami/kubectl:1.16
+      command:
+        - cat
+      tty: true
   volumes:
     - name: dockersock
       hostPath:
