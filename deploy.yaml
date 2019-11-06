@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: example
-        build_number: ${BUILD_NUMBER}
+        build_number: "${BUILD_NUMBER}"
         role: rolling-update
     spec:
       containers:
