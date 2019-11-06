@@ -4,6 +4,7 @@ metadata:
   name: example-deployment
 spec:
   replicas: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: example
@@ -11,10 +12,14 @@ spec:
     metadata:
       labels:
         app: example
+        build_number: ${BUILD_NUMBER}
+        role: rolling-update
     spec:
       containers:
         - name: example-container
-          image: davidcampos/k8s-jenkins-example
+          image: davidcampos/k8s-jenkins-example:latest
+  strategy:
+    type: RollingUpdate
 ---
 apiVersion: v1
 kind: Service
