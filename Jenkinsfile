@@ -37,7 +37,7 @@ pipeline {
             steps {
                 container('helm') {
                     sh 'helm init --client-only --skip-refresh'
-                    sh 'helm upgrade --install --force --wait example ./helm'
+                    sh 'helm upgrade --install --force example ./helm'
                 }
             }
         }
