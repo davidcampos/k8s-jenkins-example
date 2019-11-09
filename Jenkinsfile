@@ -27,7 +27,7 @@ pipeline {
             }
             steps {
                 container('docker') {
-                    sh "docker build -t ${REGISTRY} ."
+                    sh "docker build -t ${REGISTRY}:${VERSION} ."
                 }
             }
         }
@@ -38,8 +38,7 @@ pipeline {
             steps {
                 container('docker') {
                     withDockerRegistry([credentialsId: "${REGISTRY_CREDENTIAL}", url: ""]) {
-                        sh "docker tag ${VERSION} ${REGISTRY}"
-                        sh "docker push ${REGISTRY}"
+                        sh "docker push ${REGISTRY}:${VERSION}"
                     }
                 }
             }
