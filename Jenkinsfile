@@ -2,6 +2,8 @@ pipeline {
     environment {
         registry = 'davidcampos/k8s-jenkins-example'
         registryCredential = 'dockerhub'
+        name = "example.${env.BRANCH_NAME}"
+        domain = 'localhost'
     }
     agent {
         kubernetes {
@@ -37,7 +39,7 @@ pipeline {
             steps {
                 container('helm') {
                     sh 'helm init --client-only --skip-refresh'
-                    sh 'helm upgrade --install --force example ./helm'
+                    sh "helm upgrade --install --force --set name=${name} --set domain=${domain} ${name} ./helm"
                 }
             }
         }

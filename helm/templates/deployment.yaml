@@ -1,13 +1,13 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ include "helm.fullname" . }}-deployment
+  name: {{ .Values.name }}-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: {{ include "helm.name" . }}
+      app: {{ .Values.name }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "helm.name" . }}
+        app: {{ .Values.name }}
         role: rolling-update
     spec:
     {{- with .Values.imagePullSecrets }}
@@ -24,17 +24,17 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       containers:
-        - name: {{ include "helm.name" . }}-container
+        - name: {{ .Values.name }}-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8090
+              port: {{ .Values.service.port }}
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8090
+              port: {{ .Values.service.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

@@ -10,8 +10,8 @@ image:
   pullPolicy: Always
 
 imagePullSecrets: []
-nameOverride: "example"
-fullnameOverride: "example"
+name: "example"
+domain: "localhost"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -39,7 +39,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
   hosts:
-    - host: example.localhost
+    - host:
       paths:
         - /
   tls: []
