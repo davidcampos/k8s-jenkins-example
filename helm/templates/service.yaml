@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.name }}-service
 spec:
   ports:
-    - name: http-{{ .Values.name }}
+    - name: http
       targetPort: {{ .Values.service.port }}
       port: {{ .Values.service.port }}
   selector:
