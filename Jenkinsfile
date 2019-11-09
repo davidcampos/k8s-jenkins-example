@@ -2,7 +2,7 @@ pipeline {
     environment {
         registry = 'davidcampos/k8s-jenkins-example'
         registryCredential = 'dockerhub'
-        name = "example.${env.BRANCH_NAME}"
+        name = "example-${env.BRANCH_NAME}"
         domain = 'localhost'
     }
     agent {
