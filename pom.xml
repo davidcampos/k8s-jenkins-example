@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.davidcampos</groupId>
     <artifactId>k8s-jenkins-example</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>k8s-jenkins-example</name>
     <description>Example Kotlin project to deploy on Kubernetes using Jenkins</description>
 

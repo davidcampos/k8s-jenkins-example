@@ -1,9 +1,11 @@
 pipeline {
     environment {
-        registry = 'davidcampos/k8s-jenkins-example'
-        registryCredential = 'dockerhub'
-        name = "example-${env.BRANCH_NAME}"
-        domain = 'localhost'
+        DEPLOY = "${env.BRANCH_NAME == "master" || env.BRANCH_NAME == "develop" ? "true" : "false"}"
+        NAME = "${env.BRANCH_NAME == "master" ? "example" : "example-staging"}"
+        VERSION = readMavenPom().getVersion()
+        DOMAIN = 'localhost'
+        REGISTRY = 'davidcampos/k8s-jenkins-example'
+        REGISTRY_CREDENTIAL = 'dockerhub-davidcampos'
     }
     agent {
         kubernetes {
@@ -20,26 +22,35 @@ pipeline {
             }
         }
         stage('Docker Build') {
+            when {
+                environment name: 'DEPLOY', value: 'true'
+            }
             steps {
                 container('docker') {
-                    sh 'docker build -t  $registry .'
+                    sh "docker build -t  $REGISTRY ."
                 }
             }
         }
         stage('Docker Publish') {
+            when {
+                environment name: 'DEPLOY', value: 'true'
+            }
             steps {
                 container('docker') {
                     withDockerRegistry([credentialsId: "dockerhub", url: ""]) {
-                        sh 'docker push $registry:latest'
+                        sh "docker push ${REGISTRY}:${VERSION}"
                     }
                 }
             }
         }
         stage('Kubernetes Deploy') {
+            when {
+                environment name: 'DEPLOY', value: 'true'
+            }
             steps {
                 container('helm') {
                     sh 'helm init --client-only --skip-refresh'
-                    sh "helm upgrade --install --force --set name=${name} --set domain=${domain} ${name} ./helm"
+                    sh "helm upgrade --install --force --set name=${NAME} --set image.tag=${VERSION} --set domain=${DOMAIN} ${NAME} ./helm"
                 }
             }
         }
