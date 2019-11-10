@@ -1,0 +1,12 @@
+dashboard:
+  enabled: true
+  domain: traefik.localhost
+  auth:
+    basic:
+      admin: $2y$05$kpCJY2gJWlgG5CUs5tdPx.2xGJ4xyqhWtjiiM/NKfHmj3pfUPsap2
+ssl:
+  enabled: true
+  enforced: true
+  permanentRedirect: true
+  generateTLS: true
+  defaultCN: "*.localhost"
