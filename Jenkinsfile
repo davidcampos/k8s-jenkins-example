@@ -49,7 +49,6 @@ pipeline {
             }
             steps {
                 container('helm') {
-                    sh 'helm init --client-only --skip-refresh'
                     sh "helm upgrade --install --force --set name=${NAME} --set image.tag=${VERSION} --set domain=${DOMAIN} ${NAME} ./helm"
                 }
             }
