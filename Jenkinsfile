@@ -4,8 +4,8 @@ pipeline {
         NAME = "${env.BRANCH_NAME == "master" ? "example" : "example-staging"}"
         VERSION = readMavenPom().getVersion()
         DOMAIN = 'localhost'
-        REGISTRY = 'tk1122/k8s-jenkins-example'
-        REGISTRY_CREDENTIAL = 'dockerhub-tk1122'
+        REGISTRY = 'slark1122/k8s-jenkins-example'
+        REGISTRY_CREDENTIAL = 'dockerhub-slark1122'
     }
     agent {
         kubernetes {

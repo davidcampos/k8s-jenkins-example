@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: tk1122/k8s-jenkins-example
+  repository: slark1122/k8s-jenkins-example
   tag: latest
   pullPolicy: Always
 
